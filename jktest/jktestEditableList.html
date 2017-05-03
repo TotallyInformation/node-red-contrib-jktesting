@@ -1,0 +1,255 @@
+<!--
+  Copyright (c) 2017 Julian Knight (Totally Information)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/javascript">
+    var mylistContainerName = '#' + 'node-input-mylist-container'
+
+    /**
+     * @param container (JQuery) - the jQuery DOM element to which any row content should be added
+     * @param index (integer) - the row index
+     * @param data (object) - the data object for the row. If it was triggered by clicking the ‘add button’, data will be {}. Otherwise it will be the data passed to the call to the addItem method
+     * */
+    function mylistAddItem(container, index, rowData) {
+        console.log('mylistAddItem')
+        console.dir(rowData)
+
+        // Add a new row
+        var row = $('<div/>').appendTo(container)
+        var rowDetail = $('<div/>').text(index).appendTo(row)
+        // Add a visible index number
+        //row.append(' &#8594; <span class="node-input-rule-index">'+(index+1)+'</span> ')
+    }
+
+    /**
+     * @param rowData - the data for the removed item
+     * */
+    function mylistRemovetem(rowData) {
+        console.log('mylistRemoveItem')
+        console.dir(rowData)
+
+        // Need to mark list as dirty to force redeploy required
+
+        /*
+        if (rowData.hasOwnProperty('i')) {
+            var removedList = $("#node-input-rule-container").data('removedList')||[];
+            removedList.push(rowData.i);
+            $("#node-input-rule-container").data('removedList',removedList);
+        }
+
+        // Reorder visible index number
+        var rules = $("#node-input-rule-container").editableList('items');
+        rules.each(function(i) { $(this).find(".node-input-rule-index").html(i+1); });
+        */
+    }
+
+    function prepareEdit() {
+        var node = this
+
+        // Define the internal structure of each list item
+        // See http://nodered.org/docs/api/ui/editableList/ for available elements
+        $(mylistContainerName).css('min-height','250px').css('min-width','450px').editableList({
+            addItem: mylistAddItem,
+            removeItem: mylistRemovetem,
+            resizeItem: resizeRule,
+            sortItems: function(items) { // items = JQuery dom items
+                console.log('sortitems')
+                console.dir(items)
+
+                // Reorder visible index number
+                //var listItems = $(mylistContainerName).editableList('items')
+                //listItems.each(function(i) { $(this).find(".node-input-mylist-index").html(i+1); })
+            },
+            sortable: true,
+            removable: true
+        })
+
+        // If no item data in temporary list yet, make sure we have an empty temporary list at least
+        if ( !node.listItemsData ) {
+            node.listItemsData = []
+        }
+
+        // For each list item data temporarily stored, add back to the editable list
+        for (var i=0;i<this.listItemsData.length;i++) {
+            var mylistItemData = this.listItemsData[i]
+            $(mylistContainerName).editableList('addItem',mylistItemData)
+        }
+    }
+
+    function saveEdit() {
+        console.log('saveEdit')
+        // When "Done" button pressed, save all of the list items
+        // into a temporary list
+        var listItems = $(mylistContainerName).editableList('items')
+        var node = this
+        //node.listItemsData = listItems
+
+        node.listItemsData = []
+
+        listItems.each(function(i) {
+            var listItem = $(this)
+            console.dir(listItem.data())
+            node.listItemsData.push(listItem.data())
+        })
+
+        // Need to check if anything changed, if so, mark for redeploy required
+
+        /*
+
+        var ruleset;
+        var changedOutputs = {};
+        var removedList = $("#node-input-rule-container").data('removedList')||[];
+        removedList.forEach(function(i) {
+            changedOutputs[i] = -1;
+        });
+        rules.each(function(i) {
+            var ruleData = $(this).data('data');
+            var rule = $(this);
+            var type = rule.find("select").val();
+            var r = {t:type};
+            if (!(type === "true" || type === "false" || type === "null" || type === "nnull" || type === "else")) {
+                if (type === "btwn") {
+                    r.v = rule.find(".node-input-rule-btwn-value").typedInput('value');
+                    r.vt = rule.find(".node-input-rule-btwn-value").typedInput('type');
+                    r.v2 = rule.find(".node-input-rule-btwn-value2").typedInput('value');
+                    r.v2t = rule.find(".node-input-rule-btwn-value2").typedInput('type');
+                } else {
+                    r.v = rule.find(".node-input-rule-value").typedInput('value');
+                    r.vt = rule.find(".node-input-rule-value").typedInput('type');
+                }
+                if (type === "regex") {
+                    r.case = rule.find(".node-input-rule-case").prop("checked");
+                }
+            }
+            if (ruleData.hasOwnProperty('i')) {
+                if (ruleData.i !== i) {
+                    changedOutputs[ruleData.i] = i;
+                }
+            }
+            node.rules.push(r);
+        });
+        this._outputs = changedOutputs;
+        this.outputs = node.rules.length;
+        this.propertyType = $("#node-input-property").typedInput('type');
+        */
+    }
+
+    RED.nodes.registerType( 'jktestEditableList', {
+        category: 'Testing', // Pallette category
+        defaults: {
+            // { value: '', validate:..., required: true, type: '<config-node-name>' }.
+            // validate:RED.validators.number()
+            // validate:RED.validators.regex(/[a-z]+/)
+            // validate:function(v) { return v.length > this.minimumLength }
+            // validate: RED.validators.typedInput("propertyType")
+            name: { value: '' },
+            topic: { value: '' },
+            mylist: { value: [] },
+        },
+        //credentials:{username: {type:"text"}, password: {type:"password"}},
+        inputs: 1,
+        outputs: 1,
+        color: '#E6E0F8',
+        paletteLabel: 'JK Editable List Test', // can be a function
+        label: function() { return this.name || 'JK Editable List Test Node' }, // can be a string
+        //labelStyle: 'node_label' // string or function, css class: node_label or node_label_italic
+        //inputLabels: 'Any msg' // string or function, NR v0.17+
+        //outputLabels: 'msg with counter' // string or function, NR v0.17+
+        icon: "light.png", // stock icon, or use own in icons dir
+        //align: 'left',
+        oneditprepare: prepareEdit,
+        oneditsave: saveEdit,
+        //oneditcancel: function() { },
+        //oneditdelete: function() { },
+        //oneditresize: function(size) { },
+        // Do any setup when node added to palette
+        //onpaletteadd: function() { },
+        //onpaletteremove: function() { },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="jktestEditableList">
+    <!-- see http://nodered.org/docs/api/ui/ for widget types -->
+
+    <!-- Node Instance Name -->
+    <div class="form-row">
+        <!-- http://fortawesome.github.io/Font-Awesome/icons/ -->
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+
+    <!-- Topic (commonly used category for message flows, used in MQTT) -->
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+
+    <br />
+
+    <!-- Dummy Editable List, "mylist", http://nodered.org/docs/api/ui/editableList/ -->
+    <div class="form-row node-input-mylist-container-row">
+        <!-- See processing in jktestEditableList.js & in oneditprepare -->
+        <ol id="node-input-mylist-container"></ol>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="jktestEditableList">
+    <p>
+        This node is for testing and learning about editable lists in node
+        configurations.
+    </p>
+    <p style="border:2px solid red;color:red;margin:.5em;padding:.5em;">
+        This node is for TESTING ideas only!
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | buffer</span></dt>
+        <dd> the payload of the message to publish. </dd>
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd> the MQTT topic to publish to.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>_msgcounter <span class="property-type">integer</span></dt>
+                <dd>The number of messages recieved by the node instance since either the last reset of Node-RED or the last deployment of the node instance.</dd>
+                <dt>payload <span class="property-type">string | buffer</span></dt>
+                <dd>A copy of any inbound payload.</dd>
+                <dt>topic <span class="property-type">string</span></dt>
+                <dd>A copy of any inbound topic if present. Otherwise, the topic from the node's settings.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Node Settings</h3>
+    <dl>
+        <dt>Name</dt>
+        <dd>A short description shown in the admin interface</dd>
+        <dt>Topic</dt>
+        <dd>A topic name to use if the incoming msg does not contain one.</dd>
+    </dl>
+
+    <h3>File/Folder Structure</h3>
+
+
+    <h3>Details</h3>
+    <p>
+        For more information, see the GitHub page for <a href="https://github.com/TotallyInformation/node-red-contrib-jktesting">node-red-contrib-jktesting</a>
+    </p>
+</script>

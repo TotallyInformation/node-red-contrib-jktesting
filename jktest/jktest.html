@@ -1,0 +1,152 @@
+<!--
+  Copyright (c) 2017 Julian Knight (Totally Information)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/javascript">
+    RED.nodes.registerType( 'jktest', {
+        category: 'Testing', // Pallette category
+        defaults: {
+            // { value: '', validate:..., required: true, type: '<config-node-name>' }.
+            // validate:RED.validators.number()
+            // validate:RED.validators.regex(/[a-z]+/)
+            // validate:function(v) { return v.length > this.minimumLength }
+            // validate: RED.validators.typedInput("propertyType")
+            name: { value: '' },
+            topic: { value: '' }
+        },
+        //credentials:{username: {type:"text"}, password: {type:"password"}},
+        inputs: 1,
+        outputs: 1,
+        color: '#E6E0F8',
+        paletteLabel: 'JK Simple Test', // can be a function
+        label: function() { return this.name || 'JK Simple Test Node' }, // can be a string
+        //labelStyle: 'node_label' // string or function, css class: node_label or node_label_italic
+        //inputLabels: 'Any msg' // string or function, NR v0.17+
+        //outputLabels: 'msg with counter' // string or function, NR v0.17+
+        icon: "light.png", // stock icon, or use own in icons dir
+        //align: 'left',
+        // DEBUG - Open the dev console on the admin page to view output
+        oneditprepare: function() {
+            console.log('oneditprepare')
+        },
+        oneditsave: function() {
+            console.log('oneditsave')
+        },
+        oneditcancel: function() {
+            console.log('oneditcancel')
+        },
+        oneditdelete: function() {
+            console.log('oneditdelete')
+        },
+        oneditresize: function(size) {
+            console.log('oneditresize')
+        },
+        // Do any setup when node added to palette
+        onpaletteadd: function() {
+            console.log('onpaletteadd')
+        },
+        onpaletteremove: function() {
+            console.log('onpaletteremove')
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="jktest">
+    <!-- Node Instance Name -->
+    <div class="form-row">
+        <!-- http://fortawesome.github.io/Font-Awesome/icons/ -->
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+
+    <!-- Some in-line help -->
+    <div class="form-tips"><b>Tip:</b> This is here to help.</div>
+
+    <!-- Topic (commonly used category for message flows, used in MQTT) -->
+    <div class="form-row">
+        <!-- See processing in jktest.js -->
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+
+    <!--
+    <div class="form-row">
+        <label for="node-input-username"><i class="icon-tag"></i> Username</label>
+        <input type="text" id="node-input-username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="icon-tag"></i> Password</label>
+        <input type="password" id="node-input-password">
+    </div>
+    -->
+</script>
+
+<script type="text/x-red" data-help-name="jktest">
+    <p>
+        This node has several purposes.
+        <ol>
+            <li>
+                Learn the order of execution and events for learning how to program you own nodes.
+            </li>
+            <li>
+                Show some best practices and standards for code when developing your own nodes.
+            </li>
+            <li>
+                Act as a template I or you can use for your own nodes.
+            </li>
+        </ol>
+    </p>
+    <p style="border:2px solid red;color:red;margin:.5em;padding:.5em;">
+        This node is for TESTING ideas only!
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | buffer</span></dt>
+        <dd> the payload of the message to publish. </dd>
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd> the MQTT topic to publish to.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>_msgcounter <span class="property-type">integer</span></dt>
+                <dd>The number of messages recieved by the node instance since either the last reset of Node-RED or the last deployment of the node instance.</dd>
+                <dt>payload <span class="property-type">string | buffer</span></dt>
+                <dd>A copy of any inbound payload.</dd>
+                <dt>topic <span class="property-type">string</span></dt>
+                <dd>A copy of any inbound topic if present. Otherwise, the topic from the node's settings.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Node Settings</h3>
+    <dl>
+        <dt>Name</dt>
+        <dd>A short description shown in the admin interface</dd>
+        <dt>Topic</dt>
+        <dd>A topic name to use if the incoming msg does not contain one.</dd>
+    </dl>
+
+    <h3>File/Folder Structure</h3>
+
+
+    <h3>Details</h3>
+    <p>
+        For more information, see the GitHub page for <a href="https://github.com/TotallyInformation/node-red-contrib-jktesting">node-red-contrib-jktesting</a>
+    </p>
+</script>
