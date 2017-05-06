@@ -64,9 +64,10 @@ module.exports = function(RED) {
         node.name   = config.name || ''
         node.topic  = config.topic || '' // NB: will be overwritten by msg.topic if recived
 
-        // Built-in attributes:
-        // node.id // the node instance unique id, also available as config.id
-        // node.type // the module name
+        /** Built-in attributes:
+         *    node.id // the node instance unique id, also available as config.id
+         *    node.type // the module name
+         **/
 
         /** Use this if you want to see what keys (properties) are available in either the config or node objects
          *    console.dir(Object.keys(config))
@@ -84,10 +85,6 @@ module.exports = function(RED) {
 
         // Track how many messages recieved (using ES6 generator function) - not essential but nice for tracking
         node.msgCounter = rcvCounter()
-
-        // NOTE that this nodes CONTEXT variables are available from node.context().get('varname')
-        //      The node's FLOW variables are available from node.context().flow.get('varname')
-        //      The GLOBAL variables are available from node.context().global.get('varname')
 
         // Set to true if you want additional debug output to the console
         debug = RED.settings.debug || true
@@ -148,11 +145,12 @@ module.exports = function(RED) {
         } // -- end of msg recieved processing -- //
         node.on('input', nodeInputHandler)
 
-        // Do something when Node-RED is closing down
-        // which includes when this node instance is redeployed
-        // NOTE: function(done) MUST be used if needing to do async processing
-        //       in close, BUT if used, done() MUST be called because Node-RED
-        //       will wait otherwise.
+        /** Do something when Node-RED is closing down
+         *  which includes when this node instance is redeployed
+         *  NOTE: function(done) MUST be used if needing to do async processing
+         *        in close, BUT if used, done() MUST be called because Node-RED
+         *        will wait otherwise.
+         **/
         // node.on('close', function(done) {
         node.on('close', function() {
             debug && RED.log.debug('TEST:nodeGo:on-close') //debug
@@ -178,12 +176,13 @@ module.exports = function(RED) {
 
 // ========== UTILITY FUNCTIONS ================ //
 
-// Complex, custom code when processing an incoming msg should go here
-// Needs to return the msg object
-// - use RED.util.getMessageProperty(msg,expr) to get any element of the msg
-//   as this lets you retrieve deep info such as msg.payload.sub.deep
-// - use RED.util.setMessageProperty(msg,prop,value,createMissing) to set an element on the msg
-// - use RED.comms.publish('A message to admin') to send a message to the admin interface
+/** Complex, custom code when processing an incoming msg should go here
+ *  Needs to return the msg object
+ *  - use RED.util.getMessageProperty(msg,expr) to get any element of the msg
+ *    as this lets you retrieve deep info such as msg.payload.sub.deep
+ *  - use RED.util.setMessageProperty(msg,prop,value,createMissing) to set an element on the msg
+ *  - use RED.comms.publish('A message to admin') to send a message to the admin interface
+ **/
 function inputHandler(msg, node, RED) {
     var msgCount = node.msgCounter.next().value
     RED.util.setMessageProperty(msg, '_msgcounter', msgCount, false) // iterate counter and attach to msg
@@ -206,18 +205,21 @@ function processClose(done = null, node, RED) {
     if (done) done()
 } // ---- End of processClose function ---- //
 
-// Simple fn to set a node status in the admin interface
-// fill: red, green, yellow, blue or grey
-// shape: ring or dot
+/** Simple fn to set a node status in the admin interface
+ * @param status (string|object) Status object. If a string, will be turned into a default status object
+ *  fill: red, green, yellow, blue or grey
+ *  shape: ring or dot
+ **/
 function setNodeStatus( status, node ) {
     if ( typeof status !== 'object' ) status = {fill: 'grey', shape: 'ring', text: status}
 
     node.status(status)
 }
 
-// Use an ES6 generator function to track how many messages have been recieved since the last
-// restart of NR or redeploy of this node instance. 
-// This is obviously TOTALLY OVERKILL since a simple variable would have done just as well but hey, gotta start somewhere, right? ;-)
+/** Use an ES6 generator function to track how many messages have been recieved since the last
+ *  restart of NR or redeploy of this node instance. 
+ *  This is obviously TOTALLY OVERKILL since a simple variable would have done just as well but hey, gotta start somewhere, right? ;-)
+ **/
 function* rcvCounter() {
     var msgCounter = 1 // start counting from 1
     while(true) yield msgCounter++ // keeps going forever!
