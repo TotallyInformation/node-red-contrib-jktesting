@@ -91,23 +91,33 @@ module.exports = function(RED) {
             ', node.ID: ' + node.id + ', node.type: ' + node.type + 
             ', Instance Name: ' + node.name)
 
-        // Use this if you want to see what keys (properties) are available in either the config or node objects
-        //console.dir(Object.keys(config))
-        //console.dir(Object.keys(node))
+        /** Use this if you want to see what keys (properties) are available in either the config or node objects
+         *    console.dir(Object.keys(config))
+         *    console.dir(Object.keys(node))
+         **/
 
-        // If we need an Express app server to serve a web page
-        //const app = RED.httpNode || RED.httpAdmin
-        // If we just need the http server
-        //const httpServer = RED.server
+        /** Access context/flow/global variables
+         *    node.context().get('varname')
+         *    node.context().set('varname', someContent)
+         *    node.context().flow.get('varname')
+         *    node.context().global.get('varname')
+         **/
 
-        // These ONLY log to the NR console (audit is only shown when requested in NR settings)
-        // RED.log.info('Some Text') // also info, log, warn, error, trace, debug
-        // RED.log.audit({ 'TEST': 'An Object' })
-        // These show up in the NR console AND in the NR debug window
-        //this.log("Something happened");
-        //this.warn("Something happened you should know about");
-        //this.error("Oh no, something bad happened");
-        //this.error("Oh no, something bad happened", msg);  // halts current flow, triggers catch node
+        /** If we need an Express app server to serve a web page
+         *    const app = RED.httpNode || RED.httpAdmin
+         *  If we just need the http server
+         *    const httpServer = RED.server
+         **/
+
+        /** These ONLY log to the NR console (audit is only shown when requested in NR settings)
+         *    RED.log.info('Some Text') // also info, log, warn, error, trace, debug
+         *    RED.log.audit({ 'TEST': 'An Object' })
+         *  These show up in the NR console AND in the NR debug window
+         *    this.log("Something happened");
+         *    this.warn("Something happened you should know about");
+         *    this.error("Oh no, something bad happened");
+         *    this.error("Oh no, something bad happened", msg);  // halts current flow, triggers catch node
+         **/
 
         setNodeStatus( { fill: 'blue', shape: 'dot', text: 'Node Initialised' }, node )
 
