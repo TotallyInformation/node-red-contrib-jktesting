@@ -74,7 +74,7 @@ module.exports = function(RED) {
          **/
 
         /** Access context/flow/global variables
-         *  NB: context vars are reset on node, flow and full redeployments
+         *  NB: context vars are reset on node, flow and full redeployments - eventually, context vars may get a persistence mechanism
          *    node.context().get('varname')
          *    node.context().set('varname', someContent)
          *  NB: flow and global vars are NOT reset on any kind of redeployment
