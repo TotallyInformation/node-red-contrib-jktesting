@@ -68,6 +68,20 @@ module.exports = function(RED) {
         // node.id // the node instance unique id, also available as config.id
         // node.type // the module name
 
+        /** Use this if you want to see what keys (properties) are available in either the config or node objects
+         *    console.dir(Object.keys(config))
+         *    console.dir(Object.keys(node))
+         **/
+
+        /** Access context/flow/global variables
+         *  NB: context vars are reset on node, flow and full redeployments
+         *    node.context().get('varname')
+         *    node.context().set('varname', someContent)
+         *  NB: flow and global vars are NOT reset on any kind of redeployment
+         *    node.context().flow.get('varname')
+         *    node.context().global.get('varname')
+         **/
+
         // Track how many messages recieved (using ES6 generator function) - not essential but nice for tracking
         node.msgCounter = rcvCounter()
 
@@ -90,18 +104,6 @@ module.exports = function(RED) {
             'node-red-contrib-' + moduleName + ', # Deployments: ' + deployments[node.id] + 
             ', node.ID: ' + node.id + ', node.type: ' + node.type + 
             ', Instance Name: ' + node.name)
-
-        /** Use this if you want to see what keys (properties) are available in either the config or node objects
-         *    console.dir(Object.keys(config))
-         *    console.dir(Object.keys(node))
-         **/
-
-        /** Access context/flow/global variables
-         *    node.context().get('varname')
-         *    node.context().set('varname', someContent)
-         *    node.context().flow.get('varname')
-         *    node.context().global.get('varname')
-         **/
 
         /** If we need an Express app server to serve a web page
          *    const app = RED.httpNode || RED.httpAdmin
