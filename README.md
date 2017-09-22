@@ -4,6 +4,8 @@ An EXPERIMENTAL Node-RED testing/learning set of nodes.
 
 Designed as an *experimental* learning and testing tool for trying out different things when designing Node-RED nodes.
 
+You can also use it as a template for writing your own nodes.
+
 This node has several purposes:
 1. Learn the order of execution and events for learning how to program you own nodes.
 2. Show some best practices and standards for code when developing your own nodes.
@@ -15,21 +17,21 @@ This node has several purposes:
 
 Folders and files for resources on the device running Node-RED are:
 
-- 
+-
 
 ## Known Issues
 
-- 
+-
 
 ## To Do
 
-- 
+-
 
 ## Changes (See [Change Log](CHANGELOG) for details)
 
-v0.0.0
+### 0.1.1 - Minor tweaks
 
-- 
+### 0.0.0 - not a release
 
 ## Pre-requisites
 
