@@ -42,11 +42,11 @@ module.exports = function(RED) {
         /**
          * THIS FUNCTION IS RUN ON (RE)DEPLOYMENT - FOR EACH INSTANCE OF THIS NODE TYPE
          *                         --------------            --------
-         * 
+         *
          * this/node is rebuilt on every redeployment
-         * 
+         *
          * param config (object) - the config vars defined in the matching html file used in the admin interface
-         * 
+         *
          * node.xxx != var xxx - though the way that NR processes this fn makes them very similar in this case.
          *                       node.xxx vars would be accessible wherever the node object is referenced.
          *                       var xxx vars are only accessible inside this function.
@@ -97,9 +97,9 @@ module.exports = function(RED) {
             deployments[node.id] = 1
         }
 
-        debug && RED.log.debug( 
-            'node-red-contrib-' + moduleName + ', # Deployments: ' + deployments[node.id] + 
-            ', node.ID: ' + node.id + ', node.type: ' + node.type + 
+        debug && RED.log.debug(
+            'node-red-contrib-' + moduleName + ', # Deployments: ' + deployments[node.id] +
+            ', node.ID: ' + node.id + ', node.type: ' + node.type +
             ', Instance Name: ' + node.name)
 
         /** If we need an Express app server to serve a web page
@@ -135,6 +135,7 @@ module.exports = function(RED) {
                 // Add topic from node config if present and not present in msg
                 if ( !(msg.hasOwnProperty('topic')) || msg.topic === '' ) {
                     if ( node.topic !== '' ) msg.topic = node.topic
+                    else msg.topic = 'jktesting'
                 }
             }
 
@@ -142,7 +143,7 @@ module.exports = function(RED) {
             // any further, more customised code to another fn
             inputHandler(msg, node, RED)
 
-        } // -- end of msg recieved processing -- //
+        } // -- end of msg received processing -- //
         node.on('input', nodeInputHandler)
 
         /** Do something when Node-RED is closing down
@@ -217,7 +218,7 @@ function setNodeStatus( status, node ) {
 }
 
 /** Use an ES6 generator function to track how many messages have been recieved since the last
- *  restart of NR or redeploy of this node instance. 
+ *  restart of NR or redeploy of this node instance.
  *  This is obviously TOTALLY OVERKILL since a simple variable would have done just as well but hey, gotta start somewhere, right? ;-)
  **/
 function* rcvCounter() {
