@@ -17,6 +17,8 @@
 <script type="text/javascript">
     RED.nodes.registerType( 'jktest', {
         category: 'Testing', // Pallette category
+        // WARNING: If you change these, you have to redeploy your existing
+        //          node instances - possibly you have to delete and re-add.
         defaults: {
             // { value: '', validate:..., required: true, type: '<config-node-name>' }.
             // validate:RED.validators.number()
