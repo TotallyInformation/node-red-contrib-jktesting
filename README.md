@@ -11,6 +11,17 @@ This node has several purposes:
 2. Show some best practices and standards for code when developing your own nodes.
 3. Act as a template I or you can use for your own nodes.
 
+## Node Creation Workflow
+
+The workflow I use to create new nodes is:
+
+1. Create a new repo on GitHub - don't yet tag it with node-red until you are ready to go public
+2. Clone the repo to my source files folder on the dev machine
+3. Manually create a soft-link from the new folder into ~/.node-red/node_modules (I don't use npm link as that does strange things like creating a global link)
+4. Create the package.json, README.md, LICENCE, CHANGELOG.md, .gitignore files in my source folder. Create a sub-folder called "nodes" and create the html and js files in there.
+5. In the source folder, do npm install if you need to install any dependencies
+6. Restart Node-RED.
+
 ## Design
 
 ### Physical file/folder location summary
