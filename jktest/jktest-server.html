@@ -1,0 +1,94 @@
+<!--
+    Copyright (c) 2018 Julian Knight (Totally Information)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<script type="text/javascript">
+    /** The HTML file defines the settings and help information for this node type
+     *  The JS file defines the processing for each instance of this node type
+     **/
+
+    'use strict'
+
+    /** ==== THIS IS AN EXAMPLE CONFIGURATION NODE ====
+     * It doesn't actually do anything, it is just an example
+     * @see https://nodered.org/docs/creating-nodes/config-nodes
+     **/
+
+    // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
+    // @see https://nodered.org/docs/creating-nodes/node-html#node-type
+    const nodeName = 'jktest-server'
+
+    // Default configuration settings (node definition) for this node type
+    // @see https://nodered.org/docs/creating-nodes/node-html#node-definition
+    const nodeConfig = {
+        category: 'config', // Palette category - specific to config nodes
+
+        /** Defaults in the editor for each available setting
+         *  WARNING: If you change these, you have to redeploy your existing
+         *           node instances - possibly you have to delete and re-add.
+         * NB: Best to also set defaults in nodeGo fn in the js file too
+         *     as this can reduce errors.
+         * @see https://nodered.org/docs/creating-nodes/properties
+         **/
+        defaults: {
+            protocol: { value: 'https' },
+            host: { value: '' },
+            port: { value: '' }
+        },
+
+        label: function() { return this.protocol + '://' + this.host + ':' + this.port },
+    }
+
+    // Register the node type in the palette in the Node-RED admin interface
+    RED.nodes.registerType( nodeName, nodeConfig)
+</script>
+
+<script type="text/x-red" data-template-name="jktest-server">
+    <!--                  Node Instance Name (must match the nodeName/node-type above) -->
+
+    <div class="form-row">
+        <label for="node-config-input-protocol"><i class="fa fa-tag"></i> Protocol</label>
+        <input type="text" id="node-config-input-protocol">
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="fa fa-tag"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="fa fa-tag"></i> Port</label>
+        <input type="text" id="node-config-input-port">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="jktest-server">
+    <p>A simple configuration node example</p>
+    <h3>Node Settings</h3>
+    <dl>
+        <dt>Protocol</dt>
+        <dd>The TCP/IP protocol ID. e.g. http, https, ftp, etc.</dd>
+        <dt>Host</dt>
+        <dd>The IP name or IP address of the host</dd>
+        <dt>Port (Optional)</dt>
+        <dd>The IP Port Number if needed</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        For more information, see the GitHub page for <a href="https://github.com/TotallyInformation/node-red-contrib-jktesting">node-red-contrib-jktesting</a>
+    </p>
+</script>

@@ -38,11 +38,10 @@ Folders and files for resources on the device running Node-RED are:
 
 -
 
-## Changes (See [Change Log](CHANGELOG) for details)
+## Changes
 
-### 0.1.1 - Minor tweaks
+See the [Change Log](CHANGELOG) for details.
 
-### 0.0.0 - not a release
 
 ## Pre-requisites
 
@@ -60,6 +59,8 @@ npm install node-red-contrib-jktesting
 
 Run Node-RED and add an instance of the test node.
 
+There is also a simple example in the library.
+
 ## Nodes
 
 ### JK Simple Test (jktest)
@@ -73,6 +74,8 @@ Each instance of the test node has the following settings available.
     <dd>A short description shown in the admin interface</dd>
     <dt>Topic</dt>
     <dd>A topic name to use if the incoming msg does not contain one.</dd>
+    <dt>Server</dt>
+    <dd>An example of using a configuration node.</dd>
 </dl>
 
 #### Inputs
@@ -93,6 +96,8 @@ Each instance of the test node has the following settings available.
     <dd>A copy of any inbound payload.</dd>
     <dt>topic <span class="property-type">string</span></dt>
     <dd>A copy of any inbound topic if present. Otherwise, the topic from the node's settings.</dd>
+    <dt>config <span class="property-type">object</span></dt>
+    <dd>A copy of the name and server from the configuration.</dd>
   </dl>
 
 ## Discussions and suggestions

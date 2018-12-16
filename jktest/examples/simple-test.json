@@ -1,0 +1,59 @@
+[
+    {
+        "id": "8e83faec.dc03f8",
+        "type": "inject",
+        "z": "595546f3.5fb258",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "a9fadf76.9c6fb"
+            ]
+        ]
+    },
+    {
+        "id": "9c5a199f.631d98",
+        "type": "debug",
+        "z": "595546f3.5fb258",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 560,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a9fadf76.9c6fb",
+        "type": "jktest",
+        "z": "595546f3.5fb258",
+        "name": "Test Node",
+        "topic": "",
+        "server": "ed33c58d.140968",
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "9c5a199f.631d98"
+            ]
+        ]
+    },
+    {
+        "id": "ed33c58d.140968",
+        "type": "jktest-server",
+        "z": "",
+        "protocol": "https",
+        "host": "localhost",
+        "port": "9090"
+    }
+]

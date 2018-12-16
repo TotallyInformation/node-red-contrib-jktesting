@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-jktesting",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "An experimental node for Node-RED for learning and testing node creation ideas. Can also be used as a template for your own nodes.",
   "keywords": [
     "node-red",
@@ -30,10 +30,11 @@
     "url": "https://github.com/TotallyInformation/node-red-contrib-jktesting.git"
   },
   "node-red": {
-    "version": ">=0.16.0",
+    "version": ">=0.19.0",
     "nodes": {
       "jktest": "jktest/jktest.js",
-      "jktestEditableList": "jktest/jktestEditableList.js"
+      "jktestEditableList": "jktest/jktestEditableList.js",
+      "jktest-server": "jktest/jktest-server.js"
     },
     "notyetnodes": {}
   },
@@ -41,6 +42,6 @@
   },
   "devDependencies": {},
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   }
 }
