@@ -1,5 +1,5 @@
 <!--
-    Copyright (c) 2018 Julian Knight (Totally Information)
+    Copyright (c) 2019 Julian Knight (Totally Information)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 <script type="text/javascript">
     /** The HTML file defines the settings and help information for this node type
      *  The JS file defines the processing for each instance of this node type
+     *  NOTE: the "RED" object is available here
      **/
 
     'use strict'
@@ -42,13 +43,15 @@
          * @see https://nodered.org/docs/creating-nodes/properties
          **/
         defaults: {
-            // WARNING: validation functions are called when flows START - not just on change
-            //          so nodes can be marked invalid even if the editor hasn't been called.
-            // { value: '', validate:..., required: true, type: '<config-node-name>' }.
-            // validate:RED.validators.number()
-            // validate:RED.validators.regex(/[a-z]+/)
-            // validate:function(v) { return v.length > this.minimumLength }
-            // validate: RED.validators.typedInput("propertyType")
+            /** WARNING: validation functions are called when flows START - not just on change
+             *          so nodes can be marked invalid even if the editor hasn't been called.
+             *  NOTE: The property names here have to match to `#node-input-<name>` DOM id's
+             * { value: '', validate:..., required: true, type: '<config-node-name>' }.
+             * validate:RED.validators.number()
+             * validate:RED.validators.regex(/[a-z]+/)
+             * validate:function(v) { return v.length > this.minimumLength }
+             * validate: RED.validators.typedInput("propertyType")
+             */
             name: { value: '' },
             topic: { value: '' },
             // Example of using a configuration node. Type=Node Type Name
@@ -83,31 +86,34 @@
 
         oneditprepare: function() {
             // Custom prep for the configuration editor
-            console.log('oneditprepare')
+            console.log('JKTEST: oneditprepare')
         },
+
+        /** Called when the "Done" button pressed */
         oneditsave: function() {
             // Before saving
-            console.log('oneditsave')
+            console.log('JKTEST: oneditsave')
         },
+        /** Called when the "Cancel" button pressed */
         oneditcancel: function() {
             // Before cancelling an edit
-            console.log('oneditcancel')
+            console.log('JKTEST: oneditcancel')
         },
         oneditdelete: function() {
             // Before deleting a node instance from the admin interface
-            console.log('oneditdelete')
+            console.log('JKTEST: oneditdelete')
         },
         oneditresize: function(size) {
             // When the config editor is being resized
-            console.log('oneditresize')
+            console.log('JKTEST: oneditresize')
         },
         onpaletteadd: function() {
             // Do any setup when node type added to palette
-            console.log('onpaletteadd')
+            console.log('JKTEST: onpaletteadd')
         },
         onpaletteremove: function() {
             // Before node type is removed from palette
-            console.log('onpaletteremove')
+            console.log('JKTEST: onpaletteremove')
         },
     }
 
