@@ -42,6 +42,8 @@
          * @see https://nodered.org/docs/creating-nodes/properties
          **/
         defaults: {
+            // WARNING: validation functions are called when flows START - not just on change
+            //          so nodes can be marked invalid even if the editor hasn't been called.
             // { value: '', validate:..., required: true, type: '<config-node-name>' }.
             // validate:RED.validators.number()
             // validate:RED.validators.regex(/[a-z]+/)
