@@ -22,6 +22,8 @@
 
     'use strict'
 
+    /** NOTE: Anything defined outside of RED.nodes.registerType is SHARED by ALL instances */
+
     // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
     // @see https://nodered.org/docs/creating-nodes/node-html#node-type
     const nodeName = 'jktest'
@@ -46,6 +48,9 @@
             /** WARNING: validation functions are called when flows START - not just on change
              *          so nodes can be marked invalid even if the editor hasn't been called.
              *  NOTE: The property names here have to match to `#node-input-<name>` DOM id's
+             *         Also, in validation functions, `this` refers to the node instance configuration at last deploy
+             *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
+             *
              * { value: '', validate:..., required: true, type: '<config-node-name>' }.
              * validate:RED.validators.number()
              * validate:RED.validators.regex(/[a-z]+/)
@@ -86,6 +91,11 @@
 
         oneditprepare: function() {
             // Custom prep for the configuration editor
+
+            /** NOTES: `this` refers to the node instance configuration at last deploy
+             *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
+             */
+
             console.log('JKTEST: oneditprepare')
         },
 
