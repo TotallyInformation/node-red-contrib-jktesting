@@ -1,5 +1,5 @@
 <!--
-    Copyright (c) 2019 Julian Knight (Totally Information)
+    Copyright (c) 2020 Julian Knight (Totally Information)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -61,6 +61,14 @@
             topic: { value: '' },
             // Example of using a configuration node. Type=Node Type Name
             server: { value: '', type: 'jktest-server' },
+            // Testing validation of drop-downs
+            birdName :{
+                value:'',
+                required: true,
+                validate: function(v) {
+                    return v.length > 0
+                },
+            },
         },
 
         // Credentials are stored separately and are encrypted (see settings.js)
@@ -97,6 +105,8 @@
              */
 
             console.log('JKTEST: oneditprepare')
+
+            console.log('JKTEST ', RED.settings.jktestNodeEnv)
         },
 
         /** Called when the "Done" button pressed */
@@ -163,6 +173,14 @@
         <input type="text" id="node-input-server">
     </div>
     <div class="form-tips">The above is an example of using a configuration node</div>
+
+    <!-- Testing validation of drop-downs -->
+    <div class="form-row" id="bird-div">
+        <label for="node-input-birdName"><i class="fa fa-link"></i> Bird Name</label>
+        <select id="node-input-birdName">
+            <option value="" selected>--Please choose an option--</option>
+        </select>
+    </div>
 
     <!-- Example credential settings
     <div class="form-row">
