@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-jktesting",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An experimental node for Node-RED for learning and testing node creation ideas. Can also be used as a template for your own nodes.",
   "keywords": [
     "node-red",
@@ -38,9 +38,10 @@
     },
     "notyetnodes": {}
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.14"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=8"
   }
