@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 Julian Knight (Totally Information)
+ * Copyright (c) 2020 Julian Knight (Totally Information)
  *
  * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,11 @@ module.exports = function(RED) {
      *  Also must contain any credentials used in the admin ui in a ... credentials: {} ... object
      *  @see https://nodered.org/docs/creating-nodes/credentials
      **/
-    const nodeSettings = {}
+    const nodeSettings = {
+        'settings': {
+            'jktestNodeEnv': { 'value': process.env.NODE_ENV, 'exportable': true }
+        },
+    }
 
     /** RED, parent object set by Node-RED
      * @external RED
