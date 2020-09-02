@@ -19,40 +19,44 @@
      *  The JS file defines the processing for each instance of this node type
      **/
 
-    'use strict'
+    ;(function () { // Isolate this code - prevents global var name clashes with other Nodes
 
-    /** ==== THIS IS AN EXAMPLE CONFIGURATION NODE ====
-     * It doesn't actually do anything, it is just an example
-     * @see https://nodered.org/docs/creating-nodes/config-nodes
-     **/
+        'use strict'
 
-    // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
-    // @see https://nodered.org/docs/creating-nodes/node-html#node-type
-    const nodeName = 'jktest-server'
-
-    // Default configuration settings (node definition) for this node type
-    // @see https://nodered.org/docs/creating-nodes/node-html#node-definition
-    const nodeConfig = {
-        category: 'config', // Palette category - specific to config nodes
-
-        /** Defaults in the editor for each available setting
-         *  WARNING: If you change these, you have to redeploy your existing
-         *           node instances - possibly you have to delete and re-add.
-         * NB: Best to also set defaults in nodeGo fn in the js file too
-         *     as this can reduce errors.
-         * @see https://nodered.org/docs/creating-nodes/properties
+        /** ==== THIS IS AN EXAMPLE CONFIGURATION NODE ====
+         * It doesn't actually do anything, it is just an example
+         * @see https://nodered.org/docs/creating-nodes/config-nodes
          **/
-        defaults: {
-            protocol: { value: 'https' },
-            host: { value: '' },
-            port: { value: '' }
-        },
 
-        label: function() { return this.protocol + '://' + this.host + ':' + this.port },
-    }
+        // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
+        // @see https://nodered.org/docs/creating-nodes/node-html#node-type
+        const nodeName = 'jktest-server'
 
-    // Register the node type in the palette in the Node-RED admin interface
-    RED.nodes.registerType( nodeName, nodeConfig)
+        // Default configuration settings (node definition) for this node type
+        // @see https://nodered.org/docs/creating-nodes/node-html#node-definition
+        const nodeConfig = {
+            category: 'config', // Palette category - specific to config nodes
+
+            /** Defaults in the editor for each available setting
+             *  WARNING: If you change these, you have to redeploy your existing
+             *           node instances - possibly you have to delete and re-add.
+             * NB: Best to also set defaults in nodeGo fn in the js file too
+             *     as this can reduce errors.
+             * @see https://nodered.org/docs/creating-nodes/properties
+             **/
+            defaults: {
+                protocol: { value: 'https' },
+                host: { value: '' },
+                port: { value: '' }
+            },
+
+            label: function() { return this.protocol + '://' + this.host + ':' + this.port },
+        }
+
+        // Register the node type in the palette in the Node-RED admin interface
+        RED.nodes.registerType( nodeName, nodeConfig)
+        
+    })()
 </script>
 
 <script type="text/html" data-template-name="jktest-server">

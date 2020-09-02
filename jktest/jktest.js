@@ -55,6 +55,13 @@ module.exports = function(RED) {
         },
     }
 
+    RED.events.on('runtime-event', function(event) {
+        console.log('[jktest.js] runtime-event: ', event)
+        if (event.id === 'project-update' && event.payload.action === 'loaded') {
+            console.log('A new project has been loaded')
+        }
+    })
+
     /** RED, parent object set by Node-RED
      * @external RED
      * @see https://nodered.org/docs/creating-nodes/node-js

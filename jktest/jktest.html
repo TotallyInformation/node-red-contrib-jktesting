@@ -20,128 +20,132 @@
      *  NOTE: the "RED" object is available here
      **/
 
-    'use strict'
+    ;(function () { // Isolate this code - prevents global var name clashes with other Nodes
+        
+        'use strict'
 
-    /** NOTE: Anything defined outside of RED.nodes.registerType is SHARED by ALL instances */
+        /** NOTE: Anything defined outside of RED.nodes.registerType is SHARED by ALL instances */
 
-    // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
-    // @see https://nodered.org/docs/creating-nodes/node-html#node-type
-    const nodeName = 'jktest'
+        // AKA node-type (in docs). Must match the html/js filenames and the nodeName in the .js file
+        // @see https://nodered.org/docs/creating-nodes/node-html#node-type
+        const nodeName = 'jktest'
 
-    /** Additional settings may be exposed by the js file via settings.js
-     *  They are accessed via: RED.settings.nodeNameVarName
-     **/
-
-    // Default configuration settings (node definition) for this node type
-    // @see https://nodered.org/docs/creating-nodes/node-html#node-definition
-    const nodeConfig = {
-        category: 'Testing', // Palette category
-
-        /** Defaults in the editor for each available setting
-         *  WARNING: If you change these, you have to redeploy your existing
-         *           node instances - possibly you have to delete and re-add.
-         * NB: Best to also set defaults in nodeGo fn in the js file too
-         *     as this can reduce errors.
-         * @see https://nodered.org/docs/creating-nodes/properties
+        /** Additional settings may be exposed by the js file via settings.js
+         *  They are accessed via: RED.settings.nodeNameVarName
          **/
-        defaults: {
-            /** WARNING: validation functions are called when flows START - not just on change
-             *          so nodes can be marked invalid even if the editor hasn't been called.
-             *  NOTE: The property names here have to match to `#node-input-<name>` DOM id's
-             *         Also, in validation functions, `this` refers to the node instance configuration at last deploy
-             *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
-             *
-             * { value: '', validate:..., required: true, type: '<config-node-name>' }.
-             * validate:RED.validators.number()
-             * validate:RED.validators.regex(/[a-z]+/)
-             * validate:function(v) { return v.length > this.minimumLength }
-             * validate: RED.validators.typedInput("propertyType")
-             */
-            name: { value: '' },
-            topic: { value: '' },
-            // Example of using a configuration node. Type=Node Type Name
-            server: { value: '', type: 'jktest-server' },
-            // Testing validation of drop-downs
-            birdName :{
-                value:'',
-                required: true,
-                validate: function(v) {
-                    return v.length > 0
+
+        // Default configuration settings (node definition) for this node type
+        // @see https://nodered.org/docs/creating-nodes/node-html#node-definition
+        const nodeConfig = {
+            category: 'Testing', // Palette category
+
+            /** Defaults in the editor for each available setting
+             *  WARNING: If you change these, you have to redeploy your existing
+             *           node instances - possibly you have to delete and re-add.
+             * NB: Best to also set defaults in nodeGo fn in the js file too
+             *     as this can reduce errors.
+             * @see https://nodered.org/docs/creating-nodes/properties
+             **/
+            defaults: {
+                /** WARNING: validation functions are called when flows START - not just on change
+                 *          so nodes can be marked invalid even if the editor hasn't been called.
+                 *  NOTE: The property names here have to match to `#node-input-<name>` DOM id's
+                 *         Also, in validation functions, `this` refers to the node instance configuration at last deploy
+                 *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
+                 *
+                 * { value: '', validate:..., required: true, type: '<config-node-name>' }.
+                 * validate:RED.validators.number()
+                 * validate:RED.validators.regex(/[a-z]+/)
+                 * validate:function(v) { return v.length > this.minimumLength }
+                 * validate: RED.validators.typedInput("propertyType")
+                 */
+                name: { value: '' },
+                topic: { value: '' },
+                // Example of using a configuration node. Type=Node Type Name
+                server: { value: '', type: 'jktest-server' },
+                // Testing validation of drop-downs
+                birdName :{
+                    value:'',
+                    required: true,
+                    validate: function(v) {
+                        return v.length > 0
+                    },
                 },
             },
-        },
 
-        // Credentials are stored separately and are encrypted (see settings.js)
-        // Must also be defined in the js file. See definition for nodeSettings
-        // @see https://nodered.org/docs/creating-nodes/credentials
-        //credentials:{username: {type:"text"}, password: {type:"password"}},
+            // Credentials are stored separately and are encrypted (see settings.js)
+            // Must also be defined in the js file. See definition for nodeSettings
+            // @see https://nodered.org/docs/creating-nodes/credentials
+            //credentials:{username: {type:"text"}, password: {type:"password"}},
 
-        color: '#E6E0F8',
-        paletteLabel: 'JK Simple Test', // can be a function
-        label: function() { return this.name || 'JK Simple Test Node' }, // can be a simple string instead
-        //labelStyle: 'node_label' // string or function, css class: node_label or node_label_italic
+            color: '#E6E0F8',
+            paletteLabel: 'JK Simple Test', // can be a function
+            label: function() { return this.name || 'JK Simple Test Node' }, // can be a simple string instead
+            //labelStyle: 'node_label' // string or function, css class: node_label or node_label_italic
 
-        // @see https://nodered.org/docs/creating-nodes/appearance#stock-icons
-        icon: "light.png", // stock icon, or use own in icons dir
+            // @see https://nodered.org/docs/creating-nodes/appearance#stock-icons
+            icon: "light.png", // stock icon, or use own in icons dir
 
-        // Override alignment
-        //align: 'left',
+            // Override alignment
+            //align: 'left',
 
-        // How many input/output ports do we want?
-        inputs: 1,   // can only be 0 or 1
-        outputs: 1,
+            // How many input/output ports do we want?
+            inputs: 1,   // can only be 0 or 1
+            outputs: 1,
 
-        // Port labels (v0.17+)
-        //inputLabels: 'Any msg' // string or function, NR v0.17+
-        //outputLabels: 'msg with counter' // string or function, NR v0.17+
+            // Port labels (v0.17+)
+            //inputLabels: 'Any msg' // string or function, NR v0.17+
+            //outputLabels: 'msg with counter' // string or function, NR v0.17+
 
-        // DEBUG - Open the dev console on the admin page to view output
+            // DEBUG - Open the dev console on the admin page to view output
 
-        oneditprepare: function() {
-            // Custom prep for the configuration editor
+            oneditprepare: function() {
+                // Custom prep for the configuration editor
 
-            /** NOTES: `this` refers to the node instance configuration at last deploy
-             *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
-             */
+                /** NOTES: `this` refers to the node instance configuration at last deploy
+                 *         Get the latest value direct from the DOM using `$('node-input-<name>').val()`
+                 */
 
-            console.log('JKTEST: oneditprepare')
+                console.log('JKTEST: oneditprepare')
 
-            console.log('JKTEST ', RED.settings.jktestNodeEnv)
-        },
+                console.log('JKTEST ', RED.settings.jktestNodeEnv)
+            },
 
-        /** Called when the "Done" button pressed */
-        oneditsave: function() {
-            // Before saving
-            console.log('JKTEST: oneditsave')
-        },
-        /** Called when the "Cancel" button pressed */
-        oneditcancel: function() {
-            // Before cancelling an edit
-            console.log('JKTEST: oneditcancel')
-        },
-        oneditdelete: function() {
-            // Before deleting a node instance from the admin interface
-            console.log('JKTEST: oneditdelete')
-        },
-        oneditresize: function(size) {
-            // When the config editor is being resized
-            console.log('JKTEST: oneditresize')
-        },
-        onpaletteadd: function() {
-            // Do any setup when node type added to palette
-            console.log('JKTEST: onpaletteadd')
-        },
-        onpaletteremove: function() {
-            // Before node type is removed from palette
-            console.log('JKTEST: onpaletteremove')
-        },
-    }
+            /** Called when the "Done" button pressed */
+            oneditsave: function() {
+                // Before saving
+                console.log('JKTEST: oneditsave')
+            },
+            /** Called when the "Cancel" button pressed */
+            oneditcancel: function() {
+                // Before cancelling an edit
+                console.log('JKTEST: oneditcancel')
+            },
+            oneditdelete: function() {
+                // Before deleting a node instance from the admin interface
+                console.log('JKTEST: oneditdelete')
+            },
+            oneditresize: function(size) {
+                // When the config editor is being resized
+                console.log('JKTEST: oneditresize')
+            },
+            onpaletteadd: function() {
+                // Do any setup when node type added to palette
+                console.log('JKTEST: onpaletteadd')
+            },
+            onpaletteremove: function() {
+                // Before node type is removed from palette
+                console.log('JKTEST: onpaletteremove')
+            },
+        }
 
-    // Register the node type in the palette in the Node-RED admin interface
-    RED.nodes.registerType( nodeName, nodeConfig)
+        // Register the node type in the palette in the Node-RED admin interface
+        RED.nodes.registerType( nodeName, nodeConfig)
+
+    })()
 </script>
 
-<script type="text/x-red" data-template-name="jktest">
+<script type="text/html" data-template-name="jktest">
     <!--                  Node Instance Name (must match the nodeName/node-type above) -->
     <!--
         This section describes the edit dialog in the admin interface
@@ -194,7 +198,7 @@
     -->
 </script>
 
-<script type="text/x-red" data-help-name="jktest">
+<script type="text/html" data-help-name="jktest">
     <!--
         This section defines the help text shown in the info sidebar in the admin interface.
         The first <p> is used as the tooltip in the palette.
