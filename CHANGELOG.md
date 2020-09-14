@@ -1,4 +1,8 @@
-### 0.3.1 - 
+### 0.3.2 - Minor enhancements
+
+- Enhance Reporting, improve comments, rename nodeGo() to nodeInstance() for clarity
+
+### 0.3.1 - Bug fix & code tidy
 
 * Properly isolate the JS code in the html file to prevent name clashes
 * Change `text/x-red` to `text/html` in html file
