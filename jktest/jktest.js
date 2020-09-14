@@ -20,9 +20,10 @@
  *  The JS file defines the processing for each instance of this node type
  **/
 
-// THIS OUTER SECTION IS EXECUTED ONLY ONCE AS NODE-RED IS LOADING
-
 const nodeVersion = require('../package.json').version
+
+// THIS OUTER SECTION IS EXECUTED ONLY ONCE AS NODE-RED IS LOADING
+console.log(`[jktesting] *** jktest.js loaded into memory and executed. Module Ver: ${nodeVersion} ***`)
 
 // Node name must match this nodes html file name AND the nodeType in the html file
 const nodeName = 'jktest'
@@ -42,9 +43,41 @@ const deployments = {}
 // THIS FUNCTION IS EXECUTED ONLY ONCE AS NODE-RED IS LOADING
 module.exports = function(RED) {
     'use strict'
+
+    /** Some useful properties of the RED object
+     * RED.events
+     *     See below
+     * RED.settings
+     *     NB: entries in settings.js are read-only and shouldn't be read using RED.settings.get, that is only for settings that can change in-flight.
+     *     see Node-RED issue #1543.
+     * RED.httpNode || RED.httpAdmin
+     *     References to the ExpressJS app service for user-facing || Editor/admin-facing servers
+     * RED.nodes
+     *     createNode(), getNode(), eachNode(), addCredentials(), getCredentials(), deleteCredentials(), registerType()
+     */
+
     //debug && RED.log.debug( 'node-red-contrib-' + nodeName + ' - loading module' )
+    console.log('[jktesting] *** jktest.js module.exports function executed (RED object now available) ***')
+    console.log(RED.nodes)
+
+    /** Node-RED Events
+        RED.events.on('nodes-started',function() {
+            console.log('****** All nodes have started ******')
+        })
+        RED.events.on('nodes-stopped',function() {
+            console.log('****** All nodes have stopped ******')
+        }) 
+     */
+    /** Show when Node-RED runtime events that relate to this node happen */
+    RED.events.on('runtime-event', function(event) {
+        console.log('[jktesting] jktest.js runtime-event: ', event)
+        if (event.id === 'project-update' && event.payload.action === 'loaded') {
+            console.log('A new project has been loaded')
+        }
+    })
 
     /** Settings that can be set in settings.js and that are shared with the node editor
+     *  Passed to the `RED.nodes.registerType` function
      *  @see https://nodered.org/docs/creating-nodes/node-js#custom-node-settings
      *  Also must contain any credentials used in the admin ui in a ... credentials: {} ... object
      *  @see https://nodered.org/docs/creating-nodes/credentials
@@ -53,14 +86,11 @@ module.exports = function(RED) {
         'settings': {
             'jktestNodeEnv': { 'value': process.env.NODE_ENV, 'exportable': true }
         },
+        // 'credentials': {
+        //     id: {type:text},
+        //     pw: {type:password},
+        // }
     }
-
-    RED.events.on('runtime-event', function(event) {
-        console.log('[jktest.js] runtime-event: ', event)
-        if (event.id === 'project-update' && event.payload.action === 'loaded') {
-            console.log('A new project has been loaded')
-        }
-    })
 
     /** RED, parent object set by Node-RED
      * @external RED
@@ -79,15 +109,20 @@ module.exports = function(RED) {
      *                       node.xxx vars would be accessible wherever the node object is referenced.
      *                       var xxx vars are only accessible inside this function.
      */
-    function nodeGo(config) {
+    function nodeInstance(config) {
 
-        debug && RED.log.debug( 'node-red-contrib-' + nodeName + ' - Starting nodeGo, node instance being deployed ' )
+        //debug && RED.log.debug( 'node-red-contrib-' + nodeName + ' - Starting nodeInstance, node instance being deployed ' )
 
-        // Create the node instance
+        /** Create the node instance
+         * @param {Object} this A node instance object of type `nodeInstance` in this case
+         * @param {Object} config Configuration data passed from the Editor @see https://nodered.org/docs/creating-nodes/properties
+         */
         RED.nodes.createNode(this, config)
 
         // copy 'this' object in case we need it in context of callbacks of other functions.
         const node = this
+
+        console.log(`[jktesting] *** jktest.js/nodeInstance() - Creating instance of jktest node - ID: ${this.id} ***`) //, config, node)
 
         /** Create local copies of the node configuration (as defined in the .html file)
          *  NB: Best to use defaults here as well as in the html file for safety
@@ -161,7 +196,7 @@ module.exports = function(RED) {
          * @param {Object} msg - The input msg object
          **/
         function nodeInputHandler(msg) {
-            debug && RED.log.debug('TEST:nodeGo:nodeInputHandler') //debug
+            debug && RED.log.debug('TEST:nodeInstance:nodeInputHandler') //debug
 
             // If msg is null, nothing will be sent
             if ( msg === null ) return
@@ -195,7 +230,7 @@ module.exports = function(RED) {
          *        will wait otherwise and timeout with an error after 15 sec.
          **/
         node.on('close', function(removed, done) {
-            debug && RED.log.debug('TEST:nodeGo:on-close') //debug
+            debug && RED.log.debug('TEST:nodeInstance:on-close') //debug
 
             // Tidy up the event listener (that listens for new msg's)
             node.removeListener('input', nodeInputHandler)
@@ -206,15 +241,15 @@ module.exports = function(RED) {
 
         }) // --- End of on close --- //
 
-    } // ---- End of nodeGo (initialised node instance) ---- //
+    } // ---- End of nodeInstance (initialised node instance) ---- //
 
     /** Register the node by name. This must be called before overriding any of the node functions.
      * @param {string} nodeName - Name used in the matching html file that defines the admin ui
-     * @param {function} nodeGo - Name of the function that provides the processing for each instance of this node type
+     * @param {function} nodeInstance - Name of the function that provides the processing for each instance of this node type
      * @param {Object=} nodeSettings - An optional object defining settings that can be set in Node-RED's settings.js file. @see https://nodered.org/docs/creating-nodes/node-js#exposing-settings-to-the-editor
      **/
-    RED.nodes.registerType(nodeName, nodeGo, nodeSettings)
-    //RED.nodes.registerType(nodeName, nodeGo, { credentials: { username: {type:"text"}, password: {type:"password"} } })
+    RED.nodes.registerType(nodeName, nodeInstance, nodeSettings)
+    //RED.nodes.registerType(nodeName, nodeInstance, { credentials: { username: {type:"text"}, password: {type:"password"} } })
 
 } // ---- End of module.exports ---- //
 
