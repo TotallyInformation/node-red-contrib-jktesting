@@ -1,4 +1,4 @@
-### 0.3.0 - 
+### 0.3.1 - 
 
 * Properly isolate the JS code in the html file to prevent name clashes
 * Change `text/x-red` to `text/html` in html file
