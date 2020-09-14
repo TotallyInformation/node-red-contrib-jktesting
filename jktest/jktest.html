@@ -146,18 +146,16 @@
 </script>
 
 <script type="text/html" data-template-name="jktest">
-    <!--                  Node Instance Name (must match the nodeName/node-type above) -->
-    <!--
-        This section describes the edit dialog in the admin interface
+    <!-- This section describes the edit dialog in the admin interface
 
-        Each row uses a DIV with a form-row class
-        oneditprepare can be used in nodeConfig above to do custom prep
+         Each row uses a DIV with a form-row class
+         oneditprepare can be used in nodeConfig above to do custom prep
 
-        Labels can use Font-Awesome (v4.7) classes to display an icon
-        @see http://fortawesome.github.io/Font-Awesome/icons/
+         Labels can use Font-Awesome (v4.7) classes to display an icon
+         @see http://fortawesome.github.io/Font-Awesome/icons/
     -->
 
-    <div class="form-row">
+    <div class="form-row"><!-- Node Instance Name (must match the nodeName/node-type above) -->
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name">
     </div>
@@ -172,6 +170,7 @@
         <input type="text" id="node-input-topic">
     </div>
 
+    <!-- Server - example of a link to a configuration node -->
     <div class="form-row">
         <label for="node-input-server"><i class="fa fa-tag"></i> Server</label>
         <input type="text" id="node-input-server">
@@ -183,6 +182,8 @@
         <label for="node-input-birdName"><i class="fa fa-link"></i> Bird Name</label>
         <select id="node-input-birdName">
             <option value="" selected>--Please choose an option--</option>
+            <option value="pidgeon">Flying Rat</option>
+            <option value="eagle">King of the Skies</option>
         </select>
     </div>
 
