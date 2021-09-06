@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-jktesting",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "An experimental node for Node-RED for learning and testing node creation ideas. Can also be used as a template for your own nodes.",
   "keywords": [
     "node-red",
@@ -10,6 +10,7 @@
   ],
   "main": "none",
   "scripts": {
+    "build": "gulp build",
     "npmtags": "npm dist-tag ls node-red-contrib-uibuilder",
     "npmtagnext": "npm dist-tag add node-red-contrib-uibuilder@$npm_package_version next",
     "gittags": "git tag",
@@ -34,19 +35,34 @@
     "url": "https://github.com/TotallyInformation/node-red-contrib-jktesting.git"
   },
   "node-red": {
-    "version": ">=0.19.0",
+    "version": ">=2.0.0",
     "nodes": {
-      "jktest": "jktest/jktest.js",
-      "jktestEditableList": "jktest/jktestEditableList.js",
-      "jktest-server": "jktest/jktest-server.js"
+      "jktest": "nodes/jktest.js",
+      "jktest2": "nodes/jktest2.js",
+      "jktestEditableList": "nodes/jktestEditableList.js",
+      "jktest-server": "nodes/jktest-server.js"
     },
     "notyetnodes": {}
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^14.6.3"
+    "@types/express": "^4.17.13",
+    "@types/jquery": "^3.5.6",
+    "@types/node": "^14.17.14",
+    "@types/node-red": "^1.1.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-es": "^4.1.0",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-jsdoc": "^36.0.8",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^4.0.3",
+    "gulp-include": "^2.4.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12.0"
   }
 }
