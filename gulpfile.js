@@ -86,19 +86,20 @@ async function setPackageVersion() {
     }
 }
 
-/** Create a new GitHub tag for a release (only if release ver # different to current) */
+/** Create a new GitHub tag for a release (only if release ver # different to last committed tag) */
 async function createTag(cb) {
     //Get the last committed tag: git describe --tags --abbrev=0
-    const {lastTag} = await execa('git', ['describe', '--tags', '--abbrev=0'], { stdio })
+    const lastTag = (await execa('git', ['describe', '--tags', '--abbrev=0'])).stdout
     console.log(`Last committed tag: ${lastTag}`)
 
     // If the last committed tag is different to the required release ...
     if ( lastTag.replace('v','') !== release ) {
-        //const commitMsg = `chore: release ${version}`
+        //const commitMsg = `chore: release ${release}`
         //await execa('git', ['add', '.'], { stdio })
         //await execa('git', ['commit', '--message', commitMsg], { stdio })
-        await execa('git', ['tag', `v${version}`], { stdio })
+        await execa('git', ['tag', `v${release}`], { stdio })
         await execa('git', ['push', '--follow-tags'], { stdio })
+        await execa('git', ['push', 'origin', '--tags'], { stdio })
     } else {
         console.log('Requested release version is same as the latest tag - not creating tag')
     }
