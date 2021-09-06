@@ -1,0 +1,541 @@
+/* eslint-disable no-irregular-whitespace */
+/** Define typedefs for linting and JSDoc/ts checks - does not actually contain live code
+ * 
+ * Copyright (c) 2017-2021 Julian Knight (Totally Information)
+ * https://it.knightnet.org.uk, https://github.com/TotallyInformation/node-red-contrib-uibuilder
+ *
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+'use strict'
+
+/** editorRED
+ * typedef {object} editorRED The Node-RED core object available to a custom node's .html file
+ * 
+ */
+
+/** runtimeSettings - See settings.js for static settings.
+ * @typedef {object} runtimeSettings Static and Dynamic settings for Node-RED runtime
+ * 
+ * @property {string} uiPort The port used by Node-RED (default=1880)
+ * @property {string} uiHost The host IP used by Node-RED (default=0.0.0.0)
+ * @property {string} userDir The userDir folder
+ * @property {string} httpNodeRoot Optional base URL. All user url's will be under this. Default empty string.
+ * @property {object} FunctionGlobalContext Add values, Functions, packages to the Global context variable store.
+ * @property {Function} mqttReconnectTime : [Getter/Setter],
+ * @property {Function} serialReconnectTime : [Getter/Setter],
+ * @property {Function} debugMaxLength : [Getter/Setter],
+ * @property {Function} debugUseColors : [Getter/Setter],
+ * @property {string} flowFile : [Getter/Setter],
+ * @property {Function} flowFilePretty : [Getter/Setter],
+ * @property {string} credentialSecret : [Getter/Setter],
+ * @property {string} httpAdminRoot : [Getter/Setter],
+ * @property {string} httpStatic : [Getter/Setter],
+ * @property {Function} adminAuth : [Getter/Setter],
+ * @property {Function} httpNodeMiddleware : [Getter/Setter],
+ * @property {Function} httpAdminMiddleware : [Getter/Setter],
+ * @property {Function} httpServerOptions : [Getter/Setter],
+ * @property {Function} webSocketNodeVerifyClient : [Getter/Setter],
+ * @property {Function} exportGlobalContextKeys : [Getter/Setter],
+ * @property {Function} contextStorage : [Getter/Setter],
+ * @property {Function} editorTheme : [Getter/Setter],
+ * @property {string} settingsFile : [Getter/Setter],
+ * @property {string} httpRoot : [Getter/Setter],
+ * @property {Function} disableEditor : [Getter/Setter],
+ * @property {Function} httpAdminAuth : [Getter/Setter],
+ * @property {Function} httpNodeAuth : [Getter/Setter],
+ * @property {object|Function} [https] If present, https will be used for ExpressJS servers.
+ * @property {object} [uibuilder] Optional uibuilder specific Node-RED settings
+ * @property {number} [uibuilder.port] Port number if uib is using its own ExpressJS instance
+ * @property {string} [uibuilder.uibRoot] Folder name that will hold all uib runtime and instance folders
+ * 
+ * @property {string} coreNodesDir Folder containing Node-RED core nodes
+ * @property {string} version Node-RED version
+ * 
+ * @property {object} logging Controls the type and amount of logging output
+ * @property {object} logging.console Controls output levels and types to the console log
+ * @property {string} logging.console.level What level of output? (fatal, error, warn, info, debug, trace)
+ * @property {boolean} logging.console.metrics Should metrics also be shown?
+ * @property {boolean} logging.console.audit Should audit also be shown?
+ * 
+ * @property {Function} get Get dynamic settings. NB: entries in settings.js are read-only and shouldn't be read using RED.settings.get, that is only for settings that can change in-flight.
+ * @property {Function} set Set dynamic settings
+ * @property {Function} delete .
+ * @property {Function} available .
+ * 
+ * @property {Function} registerNodeSettings : [Function: registerNodeSettings],
+ * @property {Function} exportNodeSettings : [Function: exportNodeSettings],
+ * @property {Function} enableNodeSettings : [Function: enableNodeSettings],
+ * @property {Function} disableNodeSettings : [Function: disableNodeSettings],
+ * 
+ * @property {Function} getUserSettings : [Function: getUserSettings],
+ * @property {Function} setUserSettings : [Function: setUserSettings],
+ */
+
+/** runtimeLogging
+ * @typedef {object} runtimeLogging Logging. Levels that are output to the Node-RED log are controlled by the logging.console.level setting in settings.js
+ * @property {Function} fatal Lvel 0. Lowest level, things that have broken Node-RED only.
+ * @property {Function} error Level 1. Copy is sent to Editor debug panel as well as error log.
+ * @property {Function} warn Level 2.
+ * @property {Function} info Level 3.
+ * @property {Function} debug Level 4.
+ * @property {Function} trace Level 5. Very verbose output. Should tell the operator everything that is going on.
+ * @property {Function} metric Log metrics (timings)
+ * @property {Function} audit Audit log
+ * @property {Function} addHandler Adds a log handler
+ * @property {Function} removeHandler Removes a log handler
+ */
+
+/** runtimeNodes
+ * @typedef {object} runtimeNodes Gives access to other active nodes in the flows.
+ * @property {Function} registerType Register a new type of node to Node-RED.
+ * @property {Function} createNode Create a node instance (called from within registerType Function).
+ * @property {Function} getNode Get a reference to another node instance in the current flows. Can then access its properties.
+ * @property {Function} eachNode .
+ * @property {Function} addCredentials .
+ * @property {Function} getCredentials .
+ * @property {Function} deleteCredentials .
+ */
+
+/** runtimeRED
+ * @typedef {object} runtimeRED The core Node-RED runtime object
+ * @property {expressApp} httpAdmin Reference to the ExpressJS app for Node-RED Admin including the Editor
+ * @property {expressApp} httpNode Reference to the ExpressJS app for Node-RED user-facing nodes including http-in/-out and Dashboard
+ * @property {object} server Node.js http(s) Server object
+ * @property {runtimeLogging} log Logging.
+ * @property {runtimeNodes} nodes Gives access to other active nodes in the flows.
+ * @property {runtimeSettings} settings Static and Dynamic settings for Node-RED runtime
+ * 
+ * @property {Function} version Get the Node-RED version
+ * @property {Function} require : [Function: requireModule],
+ * @property {Function} comms : { publish: [Function: publish] },
+ * @property {Function} library : { register: [Function: register] },
+ * @property {Function} auth : { needsPermission: [Function: needsPermission] },
+ * 
+ * @property {object} events Event handler object
+ * @property {Function} events.on Event Listener Function. Types: 'nodes-started', 'nodes-stopped'
+ * @property {Function} events.once .
+ * @property {Function} events.addListener .
+ * 
+ * @property {object} hooks .
+ * @property {Function} hooks.has .
+ * @property {Function} hooks.clear .
+ * @property {Function} hooks.add .
+ * @property {Function} hooks.remove .
+ * @property {Function} hooks.trigger .
+ * 
+ * @property {object} util .
+ * @property {Function} util.encodeobject : [Function: encodeobject],
+ * @property {Function} util.ensurestring : [Function: ensurestring],
+ * @property {Function} util.ensureBuffer : [Function: ensureBuffer],
+ * @property {Function} util.cloneMessage : [Function: cloneMessage],
+ * @property {Function} util.compareobjects : [Function: compareobjects],
+ * @property {Function} util.generateId : [Function: generateId],
+ * @property {Function} util.getMessageProperty : [Function: getMessageProperty],
+ * @property {Function} util.setMessageProperty : [Function: setMessageProperty],
+ * @property {Function} util.getobjectProperty : [Function: getobjectProperty],
+ * @property {Function} util.setobjectProperty : [Function: setobjectProperty],
+ * @property {Function} util.evaluateNodeProperty : [Function: evaluateNodeProperty],
+ * @property {Function} util.normalisePropertyExpression : [Function: normalisePropertyExpression],
+ * @property {Function} util.normaliseNodeTypeName : [Function: normaliseNodeTypeName],
+ * @property {Function} util.prepareJSONataExpression : [Function: prepareJSONataExpression],
+ * @property {Function} util.evaluateJSONataExpression : [Function: evaluateJSONataExpression],
+ * @property {Function} util.parseContextStore : [Function: parseContextStore]
+ */
+
+/** runtimeNode
+ * @typedef {object} runtimeNode Local copy of the node instance config + other info
+ * @property {Function} send Send a Node-RED msg to an output port
+ * @property {Function} done Dummy done Function for pre-Node-RED 1.0 servers
+ * @property {Function} context get/set context data. Also .flow and .global contexts
+ * @property {Function} on Event listeners for the node instance ('input', 'close')
+ * @property {Function} removeListener Event handling
+ * @property {Function} error Error log output, also logs to the Editor's debug panel
+ * @property {object=} credentials Optional secured credentials
+ * @property {object=} name Internal.
+ * @property {object=} id Internal. uid of node instance.
+ * @property {object=} type Internal. Type of node instance.
+ * @property {object=} z Internal. uid of ???
+ * @property {[Array<string>]=} wires Internal. Array of Array of strings. The wires attached to this node instance (uid's)
+ */
+
+/** runtimeNodeConfig
+ * @typedef {object} runtimeNodeConfig Configuration of node instance. Will also have Editor panel's defined variables as properties.
+ * @property {object=} id Internal. uid of node instance.
+ * @property {object=} type Internal. Type of node instance.
+ * @property {object=} x Internal
+ * @property {object=} y Internal
+ * @property {object=} z Internal
+ * @property {object=} wires Internal. The wires attached to this node instance (uid's)
+ */
+
+/** uibNode
+ * @typedef {object} uibNode Local copy of the node instance config + other info
+ * @property {object} uibNode .
+ * @property {string} uibNode.id Unique identifier for this instance
+ * @property {string} uibNode.type What type of node is this an instance of? (uibuilder)
+ * @property {string} uibNode.name Descriptive name, only used by Editor
+ * @property {string} uibNode.topic msg.topic overrides incoming msg.topic
+ * @property {string} uibNode.url The url path (and folder path) to be used by this instance
+ * @property {string} uibNode.oldUrl The PREVIOUS url path (and folder path) after a url rename
+ * @property {boolean} uibNode.fwdInMessages Forward input msgs to output #1?
+ * @property {boolean} uibNode.allowScripts Allow scripts to be sent to front-end via msg? WARNING: can be a security issue.
+ * @property {boolean} uibNode.allowStyles Allow CSS to be sent to the front-end via msg? WARNING: can be a security issue.
+ * @property {boolean} uibNode.copyIndex DEPRECATED Copy index.(html|js|css) files from templates if they don't exist? 
+ * @property {string}  uibNode.templateFolder Folder name for the source of the chosen template
+ * @property {string}  uibNode.extTemplate Degit url reference for an external template (e.g. from GitHub)
+ * @property {boolean} uibNode.showfolder Provide a folder index web page?
+ * @property {boolean} uibNode.useSecurity Use uibuilder's built-in security features?
+ * @property {boolean} uibNode.tokenAutoExtend Extend token life when msg's received from client?
+ * @property {number} uibNode.sessionLength Lifespan of token (in seconds)
+ * @property {boolean} uibNode.reload If true, notify all clients to reload on a change to any source file
+ * @property {string} uibNode.sourceFolder (src or dist) the instance FE code folder to be served by ExpressJS
+ * @property {string} uibNode.jwtSecret Seed string for encryption of JWT
+ * @property {string} uibNode.customFolder Name of the fs path used to hold custom files & folders for THIS INSTANCE
+ * @property {number} uibNode.ioClientsCount How many Socket clients connected to this instance?
+ * @property {number} uibNode.rcvMsgCount How many msg's received since last reset or redeploy?
+ * @property {object} uibNode.ioChannels The channel names for Socket.IO
+ * @property {string} uibNode.ioChannels.control SIO Control channel name 'uiBuilderControl'
+ * @property {string} uibNode.ioChannels.client SIO Client channel name 'uiBuilderClient'
+ * @property {string} uibNode.ioChannels.server SIO Server channel name 'uiBuilder'
+ * @property {string} uibNode.ioNamespace Make sure each node instance uses a separate Socket.IO namespace
+ * @property {Function} uibNode.send Send a Node-RED msg to an output port
+ * @property {Function=} uibNode.done Dummy done Function for pre-Node-RED 1.0 servers
+ * @property {Function=} uibNode.on Event handler
+ * @property {Function=} uibNode.removeListener Event handling
+ * @property {object=} uibNode.credentials Optional secured credentials
+ * @property {object=} uibNode.z Internal
+ * @property {object=} uibNode.wires Internal. The wires attached to this node instance (uid's)
+ * 
+ * @property {boolean} uibNode.commonStaticLoaded Whether the common static folder has been added
+ * @property {boolean} uibNode.initCopyDone Has the initial template copy been done?
+ * 
+ * @property {Function} uibNode.warn Output warn level info to node-red console and to editor debug
+ */
+
+/** MsgAuth
+ * @typedef {object} MsgAuth The standard auth object used by uibuilder security. See docs for details.
+ * Note that any other data may be passed from your front-end code in the _auth.info object.
+ * _auth.info.error, _auth.info.validJwt, _auth.info.message, _auth.info.warning
+ * @property {object} MsgAuth .
+ * @property {string} MsgAuth.id Required. A unique user identifier.
+ * @property {string} [MsgAuth.password] Required for login only.
+ * @property {string} [MsgAuth.jwt] Required if logged in. Needed for ongoing session validation and management.
+ * @property {number} [MsgAuth.sessionExpiry] Required if logged in. Milliseconds since 1970. Needed for ongoing session validation and management.
+ * @property {boolean} [MsgAuth.userValidated] Required after user validation. Whether the input ID (and optional additional data from the _auth object) validated correctly or not.
+ * @property {object=} [MsgAuth.info] Optional metadata about the user.
+ */
+
+/** userValidation
+ * @typedef {object} userValidation Optional return object that is able to pass on additional use metadata back to the client.
+ * @property {object} userValidation Optional return object that is able to pass on additional use metadata back to the client.
+ * @property {boolean} userValidation.userValidated Required. Whether the input ID (and optional additional data from the _auth object) validated correctly or not.
+ * @property {userMetadata} [userValidation.authData] Optional return metadata about the user. Will be added to the output msg's _auth object
+ */
+
+/** userMetadata
+ * @typedef {object} userMetadata Optional. Metadata about the user. Will be added to the output msg's _auth object.
+ * This is just an example of what you might want to return, you can send anything you like.
+ * @property {object} userMetadata Optional. Metadata about the user. Will be added to the output msg's _auth object.
+ * @property {string} [userMetadata.name] Users full name or screen name.
+ * @property {string} [userMetadata.message] A message that the front-end code could use to display to the user when they log in.
+ * @property {string} [userMetadata.level] Users authorisation level (admin, gold, silver, reader, editor, author, ...).
+ * @property {string} [userMetadata.location] Users location.
+ * @property {Date} [userMetadata.passwordExpiry] Date/time the users password expires.
+ * @property {Date} [userMetadata.subsExpiry] Date/time the users subscription expires.
+ */
+
+/** Props define attributes on a virtual node.
+ * @typedef {object.<string, any> | {}} Props
+ * @property {object} Props .
+ * @property {Children} Props.children .
+ */
+/** The vnode children of a virtual node.
+ * @typedef {VNode[]} Children
+ */
+/** Define a custom type for virtual nodes:
+ * @typedef {string | number | Function} Type
+ * @typedef {object.<string, any>} VNode
+ * @property {object.<string, any>} VNode .
+ * @property {Type} VNode.type .
+ * @property {Props} VNode.props .
+ * @property {Children} VNode.children .
+ * @property {string} [VNode.key] .
+ */
+
+// ==== vvv These need some work vvv ==== //
+
+// ExpressJS App
+/**
+ * @typedef {object} expressApp ExpessJS `app` object
+ * @property {object} _events : [object: null prototype] { mount: [Function: onmount] },
+ * @property {number} _eventsCount : 1,
+ * @property {number} _maxListeners : undefined,
+ * @property {Function} setMaxListeners : [Function: setMaxListeners],
+ * @property {Function} getMaxListeners : [Function: getMaxListeners],
+ * @property {Function} emit : [Function: emit],
+ * @property {Function} addListener : [Function: addListener],
+ * @property {Function} on : [Function: addListener],
+ * @property {Function} prependListener : [Function: prependListener],
+ * @property {Function} once : [Function: once],
+ * @property {Function} prependOnceListener : [Function: prependOnceListener],
+ * @property {Function} removeListener : [Function: removeListener],
+ * @property {Function} off : [Function: removeListener],
+ * @property {Function} removeAllListeners : [Function: removeAllListeners],
+ * @property {Function} listeners : [Function: listeners],
+ * @property {Function} rawListeners : [Function: rawListeners],
+ * @property {Function} listenerCount : [Function: listenerCount],
+ * @property {Function} eventNames : [Function: eventNames],
+ * @property {Function} init : [Function: init],
+ * @property {Function} defaultConfiguration : [Function: defaultConfiguration],
+ * @property {Function} lazyrouter : [Function: lazyrouter],
+ * @property {Function} handle : [Function: handle],
+ * @property {Function} use : [Function: use],
+ * @property {Function} route : [Function: route],
+ * @property {Function} engine : [Function: engine],
+ * @property {Function} param : [Function: param],
+ * @property {Function} set : [Function: set],
+ * @property {Function} path : [Function: path],
+ * @property {Function} enabled : [Function: enabled],
+ * @property {Function} disabled : [Function: disabled],
+ * @property {Function} enable : [Function: enable],
+ * @property {Function} disable : [Function: disable],
+ * @property {Function} acl : [Function (anonymous)],
+ * @property {Function} bind : [Function (anonymous)],
+ * @property {Function} checkout : [Function (anonymous)],
+ * @property {Function} connect : [Function (anonymous)],
+ * @property {Function} copy : [Function (anonymous)],
+ * @property {Function} delete : [Function (anonymous)],
+ * @property {Function} get : [Function (anonymous)],
+ * @property {Function} head : [Function (anonymous)],
+ * @property {Function} link : [Function (anonymous)],
+ * @property {Function} lock : [Function (anonymous)],
+ * @property {Function} 'm-search' : [Function (anonymous)],
+ * @property {Function} merge : [Function (anonymous)],
+ * @property {Function} mkactivity : [Function (anonymous)],
+ * @property {Function} mkcalendar : [Function (anonymous)],
+ * @property {Function} mkcol : [Function (anonymous)],
+ * @property {Function} move : [Function (anonymous)],
+ * @property {Function} notify : [Function (anonymous)],
+ * @property {Function} options : [Function (anonymous)],
+ * @property {Function} patch : [Function (anonymous)],
+ * @property {Function} post : [Function (anonymous)],
+ * @property {Function} pri : [Function (anonymous)],
+ * @property {Function} propfind : [Function (anonymous)],
+ * @property {Function} proppatch : [Function (anonymous)],
+ * @property {Function} purge : [Function (anonymous)],
+ * @property {Function} put : [Function (anonymous)],
+ * @property {Function} rebind : [Function (anonymous)],
+ * @property {Function} report : [Function (anonymous)],
+ * @property {Function} search : [Function (anonymous)],
+ * @property {Function} source : [Function (anonymous)],
+ * @property {Function} subscribe : [Function (anonymous)],
+ * @property {Function} trace : [Function (anonymous)],
+ * @property {Function} unbind : [Function (anonymous)],
+ * @property {Function} unlink : [Function (anonymous)],
+ * @property {Function} unlock : [Function (anonymous)],
+ * @property {Function} unsubscribe : [Function (anonymous)],
+ * @property {Function} all : [Function: all],
+ * @property {Function} del : [Function (anonymous)],
+ * @property {Function} render : [Function: render],
+ * @property {Function} listen : [Function: listen],
+ * @property {Function} request : IncomingMessage { app: [Circular *1] },
+ * @property {Function} response : ServerResponse { app: [Circular *1] },
+ * @property {object} cache : {},
+ * @property {object} engines : {},
+ * 
+ * @property {object} settings : {
+ * @property {boolean}  settings.'x-powered-by' : true,
+ * @property {string}   settings.etag : 'weak',
+ * @property {Function} settings."etag fn" : [Function: generateETag],
+ * @property {string}   settings.env : 'development',
+ * @property {string}   settings.'query parser' : 'extended',
+ * @property {Function} settings.'query parser fn' : [Function: parseExtendedQuerystring],
+ * @property {number}   settings.'subdomain offset' : 2,
+ * @property {Function} settings.view : [Function: View],
+ * @property {string}   settings.views : 'C:\\src\\nr2\\views',
+ * @property {string}   settings.'jsonp callback name' : 'callback'
+ * 
+ * @property {object} locals : [object: null prototype] { settings: [object] },
+ * @property {string} mountpath : '/nr/',
+ * 
+ * @property {Function} parent : [Function: app] {
+ * @property {Function}   parent._events : [object: null prototype],
+ * @property {Function}   parent._eventsCount : 1,
+ * @property {Function}   parent._maxListeners : undefined,
+ * @property {Function}   parent.setMaxListeners : [Function: setMaxListeners],
+ * @property {Function}   parent.getMaxListeners : [Function: getMaxListeners],
+ * @property {Function}   parent.emit : [Function: emit],
+ * @property {Function}   parent.addListener : [Function: addListener],
+ * @property {Function}   parent.on : [Function: addListener],
+ * @property {Function}   parent.prependListener : [Function: prependListener],
+ * @property {Function}   parent.once : [Function: once],
+ * @property {Function}   parent.prependOnceListener : [Function: prependOnceListener],
+ * @property {Function}   parent.removeListener : [Function: removeListener],
+ * @property {Function}   parent.off : [Function: removeListener],
+ * @property {Function}   parent.removeAllListeners : [Function: removeAllListeners],
+ * @property {Function}   parent.listeners : [Function: listeners],
+ * @property {Function}   parent.rawListeners : [Function: rawListeners],
+ * @property {Function}   parent.listenerCount : [Function: listenerCount],
+ * @property {Function}   parent.eventNames : [Function: eventNames],
+ * @property {Function}   parent.init : [Function: init],
+ * @property {Function}   parent.defaultConfiguration : [Function: defaultConfiguration],
+ * @property {Function}   parent.lazyrouter : [Function: lazyrouter],
+ * @property {Function}   parent.handle : [Function: handle],
+ * @property {Function}   parent.use : [Function: use],
+ * @property {Function}   parent.route : [Function: route],
+ * @property {Function}   parent.engine : [Function: engine],
+ * @property {Function}   parent.param : [Function: param],
+ * @property {Function}   parent.set : [Function: set],
+ * @property {Function}   parent.path : [Function: path],
+ * @property {Function}   parent.enabled : [Function: enabled],
+ * @property {Function}   parent.disabled : [Function: disabled],
+ * @property {Function}   parent.enable : [Function: enable],
+ * @property {Function}   parent.disable : [Function: disable],
+ * @property {Function}   parent.acl : [Function (anonymous)],
+ * @property {Function}   parent.bind : [Function (anonymous)],
+ * @property {Function}   parent.checkout : [Function (anonymous)],
+ * @property {Function}   parent.connect : [Function (anonymous)],
+ * @property {Function}   parent.copy : [Function (anonymous)],
+ * @property {Function}   parent.delete : [Function (anonymous)],
+ * @property {Function}   parent.get : [Function (anonymous)],
+ * @property {Function}   parent.head : [Function (anonymous)],
+ * @property {Function}   parent.link : [Function (anonymous)],
+ * @property {Function}   parent.lock : [Function (anonymous)],
+ * @property {Function}   parent.'m-search' : [Function (anonymous)],
+ * @property {Function}   parent.merge : [Function (anonymous)],
+ * @property {Function}   parent.mkactivity : [Function (anonymous)],
+ * @property {Function}   locals : [object: null prototype],
+ * @property {Function}   mountpath : '/',
+ * @property {Function}   _router :  [Function]
+ */
+
+module.exports = {}
+
+/* RED
+ {
+    "loader": {},
+    "events": {},
+    "i18n": {},
+    "settings": {
+        "apiRootUrl": "",
+        "httpNodeRoot": "/nr/",
+        "version": "1.2.7",
+        "user": {
+            "anonymous": true,
+            "permissions": "*"
+        },
+        "context": {
+            "default": "default",
+            "stores": [
+                "default",
+                "file"
+            ]
+        },
+        "flowFilePretty": true,
+        "flowEncryptionType": "user",
+        "tlsConfigDisableLocalFiles": false,
+        "uibuilderNodeEnv": "development", // === CUSTOM ===
+        "uibuilderTemplates": {}, // === CUSTOM ===
+        "uibuilderPort": 3000, // === CUSTOM ===
+        "editorTheme": {},
+
+        "get": Function,
+        init: Function,
+        load: Function,
+        loadUserSettings: Function,
+        remove: Function,
+        set: Function,
+        theme: Function,
+    "user": {},
+    "comms": {},
+    "text": {},
+    "state": {},
+    "nodes": {},
+    "history": {},
+    "validators": {},
+    "utils": {},
+    "menu": {},
+    "panels": {},
+    "popover": {},
+    "tabs": {},
+    "stack": {},
+    "colorPicker": {},
+    "actions": {},
+    "deploy": {},
+    "diff": {},
+    "keyboard": {},
+    "workspaces": {},
+    "statusBar": {},
+    "view": {
+        "navigator": {},
+        "tools": {}
+    },
+    "sidebar": {},
+    "palette": {},
+    "editor": {},
+    "eventLog": {},
+    "tray": {},
+    "clipboard": {},
+    "library": {},
+    "notifications": {},
+    "search": {},
+    "actionList": {},
+    "typeSearch": {},
+    "subflow": {},
+    "group": {},
+    "userSettings": {},
+    "projects": {},
+    "touch": {},
+    "debug": {}
+}
+ */
+/* this
+{ 
+    name: ""
+    topic: ""
+    //... other vars ...//
+
+    credentials: { has_jwtSecret: false, _: { … } }
+
+    changed: false
+    dirty: false
+    icon: undefined
+    id: "b18a50dd.f7e5c"
+    info: undefined
+    infoEditor: w { $toDestroy: Array(46), container: div.red - ui - editor - text - container.ace_editor.ace_hidpi.red - ui - editor - text - container - toolbar.ace - tomo…, renderer: y, id: "editor2", commands: o, … } 
+    inputLabels: ""
+    inputs: 1
+    outputLabels: ['','']
+    outputs: 2
+    resize: false
+    selected: true
+    status: { text: "Node Initialised", fill: "blue", shape: "dot" } 
+    type: "uibuilder"
+    valid: true
+    validationErrors: []
+
+    g: "c49c82f3.7e716"
+    h: 30
+    l: true
+    w: 120
+    x: 530
+    y: 120
+    z: "18cb249f.38bafb"
+
+    _: ƒ()
+    __outputs: 2
+    _config: { name: """", topic: """", url: ""vue - file"", fwdInMessages: "false", allowScripts: "false", … } 
+    _def: { category: "uibuilder", color: "#E6E0F8", defaults: { … }, credentials: { … }, inputs: 1, … }
+}
+ */
