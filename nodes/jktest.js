@@ -47,25 +47,40 @@ module.exports = function(RED) {
     /** Some useful properties of the RED object
      * RED.events
      *     See below
+     *      'registry:plugin-added', 'event-log'
      * RED.settings
      *     NB: entries in settings.js are read-only and shouldn't be read using RED.settings.get, that is only for settings that can change in-flight.
      *     see Node-RED issue #1543.
      * RED.httpNode || RED.httpAdmin
      *     References to the ExpressJS app service for user-facing || Editor/admin-facing servers
      * RED.nodes
-     *     createNode(), getNode(), eachNode(), addCredentials(), getCredentials(), deleteCredentials(), registerType()
+     *     createNode(), getNode(), eachNode(), addCredentials(), getCredentials(), deleteCredentials(), registerType(), registerSubflow()
+     * RED.comms
+     *     RED.comms.publish (topic, data, retain)
+     *     Consume in Editor as 
+     *      RED.comms.subscribe("status/#",function(topic,msg) {...})
+     * RED.hooks - https://github.com/node-red/designs/tree/master/designs/pluggable-message-routing
+     *     'has', 'clear', 'add', 'remove', 'trigger'
+     * RED.util
+     *     'encodeObject', 'ensureString', 'ensureBuffer', 'cloneMessage', 'compareObjects', 
+     *     'generateId', 'getMessageProperty', 'setMessageProperty', 'getObjectProperty', 'setObjectProperty', 
+     *     'evaluateNodeProperty', 'normalisePropertyExpression', 'normaliseNodeTypeName', 'prepareJSONataExpression', 
+     *     'evaluateJSONataExpression', 'parseContextStore'
+     * 
+     * Other props
+     *   'log', 'util', 'version', 'require', 'plugins', 'library', 'httpNode', 'httpAdmin', 'server', 'auth', '_'
      */
 
     //debug && RED.log.debug( 'node-red-contrib-' + nodeName + ' - loading module' )
     console.log('[jktesting] *** jktest.js module.exports function executed (RED object now available) ***')
-    console.log(RED.nodes)
+    //console.log(RED.nodes)
 
     /** Node-RED Events
-        RED.events.on('nodes-started',function() {
-            console.log('****** All nodes have started ******')
+        RED.events.on('flows:started',function() {
+            console.log('[jktesting:jktest.js] ****** All nodes have started ******')
         })
-        RED.events.on('nodes-stopped',function() {
-            console.log('****** All nodes have stopped ******')
+        RED.events.on('flows:stopped',function() {
+            console.log('[jktesting:jktest.js] ****** All nodes have stopped ******')
         }) 
      */
     /** Show when Node-RED runtime events that relate to this node happen */
