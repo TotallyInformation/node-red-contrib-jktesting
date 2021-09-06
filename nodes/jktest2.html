@@ -1,0 +1,35 @@
+
+<script type="text/javascript">
+;(function () {
+    'use strict'
+
+    RED.nodes.registerType('jktest2', {
+        category: 'Testing',
+        color: '#E6E0F8',
+        defaults: {
+            name: { value: '' },
+            topic: { value: '' },
+        },
+        inputs: 1,
+        inputLabels: 'Msg to send to front-end',
+        outputs: 1,
+        outputLabels: ['Data from front-end'],
+        icon: 'ui_template.png',
+        paletteLabel: 'jktest2',
+        label: function () { return this.name || nodeLabel },
+        
+    }) // ---- End of registerType() ---- //
+
+})()
+</script>
+
+<script type="text/html" data-template-name="jktest2">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+</script>
